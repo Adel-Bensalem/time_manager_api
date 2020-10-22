@@ -9,17 +9,13 @@ defmodule Api_TimeManagerWeb.Router do
     #plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   scope "/api", Api_TimeManagerWeb do
     pipe_through :api
     # USERS
     resources "/users", UserController, except: [:new, :edit]
     # CLOCKS
     resources "/clocks", ClockController, except: [:new, :edit]
-    post "/clocks/:id", ClockController, :clockByUser  #To add a clock for user, for later change it for Auth 
+    post "/clocks/:id", ClockController, :clockByUser  #To add a clock for user, for later change it for Auth
     # WORKINGTIMES
     resources "/workingtimes", WorkingtimeController, except: [:new, :edit]
     get "/workingtimes/:id/:idwork", WorkingtimeController, :getOneById

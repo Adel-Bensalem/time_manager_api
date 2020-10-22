@@ -19,15 +19,15 @@ defmodule Api_TimeManagerWeb.ClockController do
       |> render("show.json", clock: clock)
     end
   end
-  def clockByUser(conn, %{"id" => id, "clock" => clock_params}) do
-    user = Account.get_user!(id)
+  def clockByUser(conn, %{"id" => user_d, "clock" => clock_params}) do
+    user = Account.get_user!(user_d)
     if (is_nil(user)) do
       conn
       |> put_status(:not_found)
       |> render("error")
     else
-      with {:ok, %Clock{} = clock} <- Account.create_clock_for_user(id, clock_params) do
-        Account.check_endclock_create_workingtime(clock)
+      with {:ok, %Clock{} = clock} <- Account.create_clock_for_user(user_d, clock_params) do
+       # Account.check_endclock_create_workingtime(clock)
             conn
             |> put_status(:created)
             |> put_resp_header("location", Routes.clock_path(conn, :show, clock))

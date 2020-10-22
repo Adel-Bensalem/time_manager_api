@@ -17,10 +17,12 @@ defmodule Api_TimeManager.Account do
       [%User{}, ...]
 
   """
+  def list_users do
+    Repo.all(User)
+  end
 
-
-  def list_users(params) do
-    IO.inspect(params)
+  def list_users_params(params) do
+    IO.inspect(params)  #Inspects and writes the given item to the device
     query = from u in User
     if (params["email"]) do
       query = from u in User, where: u.email == ^params["email"]
@@ -69,10 +71,10 @@ defmodule Api_TimeManager.Account do
 
   """
   def create_user(attrs \\ %{}) do
-      %User{}
-      |> User.changeset(attrs)
-      |> Repo.insert()
-    end
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
+  end
 
   @doc """
   Updates a user.
@@ -173,9 +175,9 @@ defmodule Api_TimeManager.Account do
     |> Clock.changeset(attrs)
     |> Repo.insert()
   end
-
-  def create_clock_for_user(id, attrs \\ %{}) do
-    cuser = %{time: attrs["time"], status: attrs["status"], user: id}
+  #this fucntion creates a clock for user
+  def create_clock_for_user(user_id,attrs \\ %{}) do
+    cuser = %{time: attrs["time"], status: attrs["status"], user_id: user_id}
     %Clock{}
     |> Clock.changeset(cuser)
     |> Repo.insert()

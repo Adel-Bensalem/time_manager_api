@@ -8,12 +8,13 @@ defmodule Api_TimeManager.Account.Clock do
     field :user_id, :id
 
     timestamps()
+
   end
 
   @doc false
   def changeset(clock, attrs) do
     clock
-    |> cast(attrs, [:status, :time])
-    |> validate_required([:status, :time])
+    |> cast(attrs, [:status, :time, :user_id])
+    |> validate_required([:status, :time, :user_id])
   end
 end
